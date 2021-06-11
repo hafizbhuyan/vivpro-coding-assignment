@@ -10,6 +10,6 @@ def main():
         for item in data:
             columns.append(item)
         result = pd.DataFrame(data, columns=columns)
-        result.to_excel('output.xlsx')
+        result.to_csv(path_or_buf="output.csv", columns=columns)
 
 main()

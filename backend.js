@@ -1,24 +1,22 @@
-const app = require('express')();
-const PORT = 8080;
+// Require packages and set the port
+const express = require('express')
+const port = 3002
+const app = express()
+const bodyParser = require('body-parser')
+let fs = require('fs')
+let parse = require('csv-parse')
+let parser = parse({columns: true, delimiter: ','}, function(err, records) {
+  app.get('/', (request, response) => {
+    console.log(`URL: ${request.url}`)
+    response.send(records)
+  })  
 
-function printFile(file) {
-    const reader = new FileReader();
-    reader.onload = function(evt) {
-      console.log(evt.target.result);
-    };
-    reader.readAsText(file);
-}
+  // Start the server
+  const server = app.listen(port, (error) => {
+    if (error) return console.log(`Error: ${error}`)
 
-printFile('/output.xlsx')
+    console.log(`Server listening on port ${server.address().port}`)
+  })
+})
 
-// app.get('/tshirt', (req, res) => {
-//     res.status(200).send({
-//         tshirt: 'shirt',
-//         size: 'large'
-//     })
-// })
-
-// app.listen(
-//     PORT,
-//     () => console.log(`Server link: http://localhost:${PORT}/tshirt`)
-// )
+fs.createReadStream(__dirname+'/output.csv').pipe(parser)

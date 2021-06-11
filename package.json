@@ -1,0 +1,51 @@
+{
+  "name": "vivpro-coding-assignment",
+  "version": "1.0.0",
+  "description": "Coding assignment part of internship interview process",
+  "main": "backend.js",
+  "scripts": {
+    "serve": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "start": "node backend.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hafizbhuyan/vivpro-coding-assignment.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hafizbhuyan/vivpro-coding-assignment/issues"
+  },
+  "homepage": "https://github.com/hafizbhuyan/vivpro-coding-assignment#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "csv-generate": "^3.4.0",
+    "csv-parse": "^4.16.0",
+    "csv-stringify": "^5.6.2",
+    "csv-transform": "^0.0.8",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "node-csv": "^0.1.2",
+    "papaparse": "^5.3.1",
+    "react": "^17.0.2",
+    "react-csv-reader": "^3.3.0",
+    "react-data-table-component": "^6.11.7",
+    "react-dom": "^17.0.2",
+    "react-paginate": "^7.1.3",
+    "request": "^2.88.2",
+    "styled-components": "^5.3.0",
+    "xlsx": "^0.17.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.4",
+    "@babel/preset-react": "^7.13.13",
+    "babel-loader": "^8.2.2",
+    "file-loader": "^6.2.0",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
