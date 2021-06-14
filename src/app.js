@@ -1,5 +1,6 @@
 import React from 'react';
-import Papa from 'papaparse';
+import { DataGrid } from '@material-ui/data-grid';
+import { CSVLink } from 'react-csv';
 
 export class App extends React.Component {
     constructor(props) {
@@ -7,7 +8,8 @@ export class App extends React.Component {
         this.state = {
             playlist: [],
             isLoaded: false,
-            error: null
+            error: null,
+            searchItem: ''
         }
     }
 
@@ -18,8 +20,10 @@ export class App extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
+                    let counter = 1
                     for (let i = 0; i < result.length; i++) {
                         let song = {
+                            ID: counter,
                             id: result[i].id,
                             title: result[i].title,
                             danceability: result[i].danceability,
@@ -39,6 +43,7 @@ export class App extends React.Component {
                             num_segments: result[i].num_segments,
                             class: result[i].class
                         }
+                        counter++
                         this.setState({ playlist: [...this.state.playlist, song] })
                     }
                     this.setState({ isLoaded: true });
@@ -52,6 +57,10 @@ export class App extends React.Component {
             )
     }
 
+    // handleChange = event => {
+    //     this.setState({ searchItem: event.target.value })
+    // }
+
     render() {
         const { error, isLoaded, playlist } = this.state;
         if (error) {
@@ -60,54 +69,41 @@ export class App extends React.Component {
             return <div>Loading...</div>;
         } else {
             return (
-                <table className="table table-dark">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Danceability</th>
-                            <th scope="col">Energy</th>
-                            <th scope="col">Key</th>
-                            <th scope="col">Loudness</th>
-                            <th scope="col">Mode</th>
-                            <th scope="col">Acousticness</th>
-                            <th scope="col">Instrumentalness</th>
-                            <th scope="col">Liveness</th>
-                            <th scope="col">Valence</th>
-                            <th scope="col">Tempo</th>
-                            <th scope="col">Duration in MS</th>
-                            <th scope="col">Time Signature</th>
-                            <th scope="col">Number of Bars</th>
-                            <th scope="col">Number of Sections</th>
-                            <th scope="col">Number of Segments</th>
-                            <th scope="col">Class</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {playlist.map(item => (
-                            <tr>
-                                <th scope="row">{item.id}</th>
-                                <td>{item.title}</td>
-                                <td>{item.danceability}</td>
-                                <td>{item.energy}</td>
-                                <td>{item.key}</td>
-                                <td>{item.loudness}</td>
-                                <td>{item.mode}</td>
-                                <td>{item.acousticness}</td>
-                                <td>{item.instrumentalness}</td>
-                                <td>{item.liveness}</td>
-                                <td>{item.valence}</td>
-                                <td>{item.tempo}</td>
-                                <td>{item.duration_ms}</td>
-                                <td>{item.time_signature}</td>
-                                <td>{item.num_bars}</td>
-                                <td>{item.num_sections}</td>
-                                <td>{item.num_segments}</td>
-                                <td>{item.class}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div style={{margin: '2% 0% 2% 0%'}}>
+                    {/* <div className="input-group mb-3">
+                        <input className="form-control" type="text" placeholder="Enter a song title..." />
+                    </div> */}
+                    <DataGrid
+                        columns={[
+                            {field: 'id', headerName: 'ID', width: 100},
+                            {field: 'title', headerName: 'Title', width: 150},
+                            {field: 'danceability', headerName: 'Danceability', width: 175},
+                            {field: 'energy', headerName: 'Energy', width: 150},
+                            {field: 'key', headerName: 'Key', width: 150},
+                            {field: 'loudness', headerName: 'Loudness', width: 150},
+                            {field: 'mode', headerName: 'Mode', width: 150},
+                            {field: 'acousticness', headerName: 'Acousticness', width: 175},
+                            {field: 'instrumentalness', headerName: 'Instrumentalness', width: 175},
+                            {field: 'liveness', headerName: 'Liveness', width: 150},
+                            {field: 'valence', headerName: 'Valence', width: 150},
+                            {field: 'tempo', headerName: 'Tempo', width: 150},
+                            {field: 'duration_ms', headerName: 'Duration in MS', width: 200},
+                            {field: 'time_signature', headerName: 'Time Signature', width: 200},
+                            {field: 'num_bars', headerName: 'Number of Bars', width: 200},
+                            {field: 'num_sections', headerName: 'Number of Sections', width: 200},
+                            {field: 'num_segments', headerName: 'Number of Segments', width: 200},
+                            {field: 'class', headerName: 'Class', width: 150}
+                        ]}
+                        rows={this.state.playlist}
+                        autoHeight={true}
+                        rowHeight={50}
+                        pagination={true}
+                        pageSize={10}
+                    />
+                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2%'}}>
+                        <CSVLink data={this.state.playlist} className="btn btn-primary">Download as CSV</CSVLink>                    
+                    </div>
+                </div>
             );
         }
     }
